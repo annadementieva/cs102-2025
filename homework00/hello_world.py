@@ -3,7 +3,7 @@
 
 def text():
     "Модуль hello_world, выводит приветственное сообщение."
-    message = "Hello world!"
+    message = "message"
     return message
 
 
