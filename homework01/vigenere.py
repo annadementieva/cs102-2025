@@ -13,37 +13,20 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     ciphertext = ""
 
-    # Убираем не-буквенные символы из ключа
-    clean_keyword = ''.join(char for char in keyword if char.isalpha())
-
-    if not clean_keyword:
-        return plaintext
-
-    key_index = 0
-
-    for char in plaintext:
+    keyword = keyword.upper()
+    key_length = len(keyword)
+    alphabet_size = ord("Z") - ord("A") + 1
+    for i, char in enumerate(plaintext):
         if char.isalpha():
-            # Получаем текущий символ ключа
-            key_char = clean_keyword[key_index % len(clean_keyword)]
-
-            # Вычисляем сдвиг
-            if key_char.isupper():
-                shift = ord(key_char) - ord('A')
-            else:
-                shift = ord(key_char) - ord('a')
-
-            # Применяем шифрование
+            key_char = keyword[i % key_length]
+            shift = ord(key_char) - ord("A")
             if char.isupper():
-                base = ord('A')
-                encrypted_char = chr((ord(char) - base + shift) % 26 + base)
+                base = ord("A")
             else:
-                base = ord('a')
-                encrypted_char = chr((ord(char) - base + shift) % 26 + base)
-
+                base = ord("a")
+            encrypted_char = chr((ord(char) - base + shift) % alphabet_size + base)
             ciphertext += encrypted_char
-            key_index += 1
         else:
-            # Не-буквенные символы (пробелы, цифры, знаки препинания) остаются без изменений
             ciphertext += char
 
     return ciphertext
@@ -60,5 +43,22 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    keyword = keyword.upper()
+    key_length = len(keyword)
+    alphabet_size = ord("Z") - ord("A") + 1
+
+    for i, char in enumerate(ciphertext):
+        if char.isalpha():
+            key_char = keyword[i % key_length]
+            shift = ord(key_char) - ord("A")
+
+            if char.isupper():
+                base = ord("A")
+            else:
+                base = ord("a")
+            decrypted_char = chr((ord(char) - base - shift) % alphabet_size + base)
+            plaintext += decrypted_char
+        else:
+            plaintext += char
     return plaintext
+
