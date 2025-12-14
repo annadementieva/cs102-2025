@@ -53,10 +53,13 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     plaintext = ""
     for ch in ciphertext:
         if "A" <= ch <= "Z":
+            # диапазон заглавных букв
             plaintext += chr((ord(ch) - ord("A") - shift) % 26 + ord("A"))
         elif "a" <= ch <= "z":
+            # диапазон строчных букв
             plaintext += chr((ord(ch) - ord("a") - shift) % 26 + ord("a"))
         else:
+            # остальные символы не меняем
             plaintext += ch
     return plaintext
 
