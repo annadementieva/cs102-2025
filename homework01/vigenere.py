@@ -1,4 +1,4 @@
-""" Модуль для шифрования и дешифрования текста с помощью шифра Виженера"""
+"""Модуль для шифрования и дешифрования текста с помощью шифра Виженера"""
 
 
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
@@ -61,4 +61,3 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
         else:
             plaintext += char
     return plaintext
-
