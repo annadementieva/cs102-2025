@@ -9,9 +9,7 @@ def create_grid(rows: int = 15, cols: int = 15) -> List[List[Union[str, int]]]:
     return [["■"] * cols for _ in range(rows)]
 
 
-def remove_wall(
-    grid: List[List[Union[str, int]]], coord: Tuple[int, int]
-) -> List[List[Union[str, int]]]:
+def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> List[List[Union[str, int]]]:
     """
 
     :param grid:
@@ -19,12 +17,23 @@ def remove_wall(
     :return:
     """
 
-    pass
+    x, y = coord
+    index_last_col = len(grid[0]) - 1
+    direction = choice(("up", "right"))
+    if direction == "up":
+        if x > 1:
+            grid[x - 1][y] = " "
+        elif y < index_last_col - 1:
+            grid[x][y + 1] = " "
+    else:
+        if y < index_last_col - 1:
+            grid[x][y + 1] = " "
+        elif x > 1:
+            grid[x - 1][y] = " "
+    return grid
 
 
-def bin_tree_maze(
-    rows: int = 15, cols: int = 15, random_exit: bool = True
-) -> List[List[Union[str, int]]]:
+def bin_tree_maze(rows: int = 15, cols: int = 15, random_exit: bool = True) -> List[List[Union[str, int]]]:
     """
 
     :param rows:
