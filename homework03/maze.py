@@ -117,7 +117,20 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     :return:
     """
 
-    pass
+    number_rows = len(grid)
+    number_cols = len(grid[0])
+    x, y = coord
+    if x in (0, number_rows - 1) and y in (0, number_cols - 1):
+        return True
+    if x == 0 and grid[x + 1][y] != " ":
+        return True
+    if x == number_rows - 1 and grid[x - 1][y] != " ":
+        return True
+    if y == 0 and grid[x][y + 1] != " ":
+        return True
+    if y == number_cols - 1 and grid[x][y - 1] != " ":
+        return True
+    return False
 
 
 def solve_maze(
