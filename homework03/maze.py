@@ -129,7 +129,29 @@ def solve_maze(
     :return:
     """
 
-    pass
+    grid = deepcopy(grid)
+    exits = get_exits(grid)
+    if len(exits) == 1:
+        return grid, exits[0]
+    for possible_exit in exits:
+        if encircled_exit(grid, possible_exit):
+            return grid, None
+    for x, row in enumerate(grid):
+        for y, cell in enumerate(row):
+            if cell == " ":
+                grid[x][y] = 0
+    x_enter, y_enter = exits[0]
+    grid[x_enter][y_enter] = 1
+    x_exit, y_exit = exits[1]
+    grid[x_exit][y_exit] = 0
+    k = 1
+    while grid[x_exit][y_exit] == 0:
+        make_step(grid, k)
+        k += 1
+        if k > len(grid) * len(grid[0]):
+            return grid, None
+    path = shortest_path(grid, (x_exit, y_exit))
+    return grid, path
 
 
 def add_path_to_grid(
