@@ -16,7 +16,6 @@ def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> Li
     :param coord:
     :return:
     """
-
     x, y = coord
     index_last_col = len(grid[0]) - 1
     direction = choice(("up", "right"))
@@ -184,6 +183,7 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
             walls += 1
 
     return walls == possible
+
 
 def solve_maze(
     grid: List[List[Union[str, int]]],
