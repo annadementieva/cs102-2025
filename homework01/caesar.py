@@ -1,5 +1,4 @@
-"""Модуль для шифрования и дешифрования шифром Цезаря.
-Реализует классический шифр Цезаря с поддержкой разных сдвигов."""
+a = 26  # количество букв в латинском алфавите
 
 
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
@@ -20,13 +19,15 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
+    ord_A = ord("A")
+    ord_a = ord("a")
     for ch in plaintext:
         if "A" <= ch <= "Z":
             # диапазон заглавных букв
-            ciphertext += chr((ord(ch) - ord("A") + shift) % 26 + ord("A"))
+            ciphertext += chr((ord(ch) - ord_A + shift) % a + ord_A)
         elif "a" <= ch <= "z":
             # диапазон строчных букв
-            ciphertext += chr((ord(ch) - ord("a") + shift) % 26 + ord("a"))
+            ciphertext += chr((ord(ch) - ord_a + shift) % a + ord_a)
         else:
             # остальные символы не меняем
             ciphertext += ch
@@ -51,13 +52,15 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
+    ord_A = ord("A")
+    ord_a = ord("a")
     for ch in ciphertext:
         if "A" <= ch <= "Z":
             # диапазон заглавных букв
-            plaintext += chr((ord(ch) - ord("A") - shift) % 26 + ord("A"))
+            plaintext += chr((ord(ch) - ord_A - shift) % a + ord_A)
         elif "a" <= ch <= "z":
             # диапазон строчных букв
-            plaintext += chr((ord(ch) - ord("a") - shift) % 26 + ord("a"))
+            plaintext += chr((ord(ch) - ord_a - shift) % a + ord_a)
         else:
             # остальные символы не меняем
             plaintext += ch
