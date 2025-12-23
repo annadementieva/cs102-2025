@@ -37,10 +37,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    result = []
-    for i in range(0, len(values), n):
-        result.append(values[i : i + n])
-    return result
+    return [values[i : i + n] for i in range(0, len(values), n)]
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -99,8 +96,8 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    for i in range(len(grid)):
-        for j in range(len(grid[i])):
+    for i, row in enumerate(grid):
+        for j, value in enumerate(row):
             if grid[i][j] == ".":
                 return (i, j)
     return None
@@ -142,7 +139,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
     empty_pos = find_empty_positions(grid)
-    if empty_pos is None:
+    if not empty_pos:
         return grid
 
     row, col = empty_pos
@@ -150,7 +147,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     for value in possible_values:
         grid[row][col] = value
         solution = solve(grid)
-        if solution is not None:
+        if solution:
             return solution
 
         grid[row][col] = "."
@@ -160,20 +157,21 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """Если решение solution верно, то вернуть True, в противном случае False"""
     # TODO: Add doctests with bad puzzles
+    numbers = set("123456789")
     for i in range(9):
         row = get_row(solution, (i, 0))
-        if set(row) != set("123456789"):
+        if set(row) != numbers:
             return False
 
     for j in range(9):
         col = get_col(solution, (0, j))
-        if set(col) != set("123456789"):
+        if set(col) != numbers:
             return False
 
     for i in range(0, 9, 3):
         for j in range(0, 9, 3):
             block = get_block(solution, (i, j))
-            if set(block) != set("123456789"):
+            if set(block) != numbers:
                 return False
 
     return True
@@ -202,12 +200,13 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """
     grid = [["." for _ in range(9)] for _ in range(9)]
     solved_grid = solve(grid)
-    if solved_grid is None:
+    if not solved_grid:
         return grid
     if N >= 81:
         return solved_grid
 
-    result = [row[:] for row in solved_grid]
+    from copy import deepcopy
+    result = deepcopy(solved_grid)
     positions = [(i, j) for i in range(9) for j in range(9)]
     import random
 
