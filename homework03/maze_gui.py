@@ -42,7 +42,7 @@ if __name__ == "__main__":
     while True:
         GRID = bin_tree_maze(N, M)
         maze, path = solve_maze(GRID)
-        if path:  
+        if path:
             break
 
     window = tk.Tk()
