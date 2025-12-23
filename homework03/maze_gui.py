@@ -39,7 +39,11 @@ if __name__ == "__main__":
     N, M = 51, 77
 
     CELL_SIZE = 10
-    GRID = bin_tree_maze(N, M)
+    while True:
+        GRID = bin_tree_maze(N, M)
+        maze, path = solve_maze(GRID)
+        if path:  
+            break
 
     window = tk.Tk()
     window.title("Maze")

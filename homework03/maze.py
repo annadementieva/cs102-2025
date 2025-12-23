@@ -92,11 +92,9 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
     """
 
     new_grid = deepcopy(grid)
-
-    for x in range(len(grid)):
-        for y in range(len(grid[0])):
+    for x, row in enumerate(grid):
+        for y, cell in enumerate(row):
             if grid[x][y] == k:
-
                 if x > 0 and grid[x - 1][y] == 0:
                     new_grid[x - 1][y] = k + 1
                 if x < len(grid) - 1 and grid[x + 1][y] == 0:
@@ -105,7 +103,6 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
                     new_grid[x][y - 1] = k + 1
                 if y < len(grid[0]) - 1 and grid[x][y + 1] == 0:
                     new_grid[x][y + 1] = k + 1
-
     return new_grid
 
 
@@ -120,18 +117,17 @@ def shortest_path(
     """
     x, y = exit_coord
     val = grid[x][y]
-
-    if type(val) != int or val == 0:
+    try:
+        val = int(val)
+        if val == 0:
+            return None
+    except (ValueError, TypeError):
         return None
-
     path = []
-
     while val >= 1:
         path.append((x, y))
-
         if val == 1:
             break
-
         val -= 1
         if x > 0 and grid[x - 1][y] == val:
             x -= 1
@@ -143,7 +139,6 @@ def shortest_path(
             y += 1
         else:
             return None
-
     return path
 
 
@@ -158,13 +153,10 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     x, y = coord
     rows = len(grid)
     cols = len(grid[0])
-
     if not (x == 0 or x == rows - 1 or y == 0 or y == cols - 1):
         return False
-
     walls = 0
     possible = 0
-
     if x > 0:
         possible += 1
         if grid[x - 1][y] == "■":
@@ -181,7 +173,6 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
         possible += 1
         if grid[x][y + 1] == "■":
             walls += 1
-
     return walls == possible
 
 
@@ -198,21 +189,17 @@ def solve_maze(
 
     if len(doors) != 2:
         return grid, None if not doors else [doors[0]]
-
     start, end = doors
-
     if encircled_exit(grid, start):
         return grid, None
-
     maze = deepcopy(grid)
 
-    for i in range(len(maze)):
-        for j in range(len(maze[0])):
+    for i, row in enumerate(maze):
+        for j, cell in enumerate(row):
             if maze[i][j] == "X":
                 maze[i][j] = 1 if (i, j) == start else 0
             elif maze[i][j] == " ":
                 maze[i][j] = 0
-
     step = 1
     while maze[end[0]][end[1]] == 0:
         maze = make_step(maze, step)
@@ -222,14 +209,10 @@ def solve_maze(
 
     if maze[end[0]][end[1]] == 0:
         return maze, None
-
     path_from_exit_to_enter = shortest_path(maze, end)
-
     if not path_from_exit_to_enter:
         return maze, None
-
     path_from_enter_to_exit = path_from_exit_to_enter
-
     return maze, path_from_enter_to_exit
 
 
