@@ -206,6 +206,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
         return solved_grid
 
     from copy import deepcopy
+
     result = deepcopy(solved_grid)
     positions = [(i, j) for i in range(9) for j in range(9)]
     import random
