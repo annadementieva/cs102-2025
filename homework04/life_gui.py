@@ -43,9 +43,7 @@ class GUI(UI):
         pygame.init()
         clock = pygame.time.Clock()
         pygame.display.set_caption("Game of Life")
-
         self.screen.fill(pygame.Color("white"))
-
         running = True
         paused = False
 
@@ -73,10 +71,8 @@ class GUI(UI):
                 self.life.step()
 
             self.screen.fill(pygame.Color("white"))
-
             self.draw_grid()
             self.draw_lines()
-
             pygame.display.flip()
             clock.tick(self.speed)
 
