@@ -3,7 +3,7 @@ import random
 import typing as tp
 
 import pygame
-from pygame.locals import *
+from pygame.locals import KEYDOWN, K_SPACE, K_r, MOUSEBUTTONDOWN
 
 Cell = tp.Tuple[int, int]
 Cells = tp.List[int]

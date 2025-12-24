@@ -1,5 +1,5 @@
 import pygame
-from pygame.locals import K_SPACE, KEYDOWN, MOUSEBUTTONDOWN, K_r
+from pygame.locals import KEYDOWN, K_SPACE, K_r, MOUSEBUTTONDOWN
 
 from life import GameOfLife
 from ui import UI
