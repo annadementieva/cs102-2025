@@ -58,7 +58,6 @@ class GUI(UI):
                         paused = not paused
                     elif event.key == K_r:
                         self.life.curr_generation = self.life.create_grid(randomize=True)
-
                         self.life.generations = 1
                 elif event.type == MOUSEBUTTONDOWN and paused:
                     if event.button == 1:
